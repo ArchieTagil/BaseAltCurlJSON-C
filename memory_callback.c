@@ -1,6 +1,6 @@
 #include "main.h"
 
-static size_t WriteMemoryCallback(void *content, size_t size, size_t nmemb, void *userp) {
+size_t WriteMemoryCallback(void *content, size_t size, size_t nmemb, void *userp) {
     size_t real_size = size * nmemb;
     MemoryStruct *mem = (MemoryStruct *) userp;
 
