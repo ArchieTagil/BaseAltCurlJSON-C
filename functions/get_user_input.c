@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../main.h"
 
 int get_user_input() {
     int action = 0;

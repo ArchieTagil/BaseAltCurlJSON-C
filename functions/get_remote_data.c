@@ -1,11 +1,10 @@
-#include "main.h"
+#include "../main.h"
 
 void get_remote_data(char *url, MemoryStruct *chunk) {
     CURL *curl;
     CURLcode res;
     struct curl_slist *headers = NULL;
 
-    curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
     if (curl) {
 

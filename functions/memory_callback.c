@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../main.h"
 
 size_t WriteMemoryCallback(void *content, size_t size, size_t nmemb, void *userp) {
     size_t real_size = size * nmemb;
