@@ -12,7 +12,7 @@ all: build
 	bin/main
 
 build: cr_lib
-	$(CC) $(CFLAGS) main.c -lcurl -ljson-c -lbasealt -L lib -o bin/main
+	$(CC) $(CFLAGS) main.c cli_data/*.c -lcurl -ljson-c -lbasealt -L lib -o bin/main
 
 cr_objects: clean
 	$(CC) $(CFLAGS) -c -fpic ./functions/*.c -lcurl -ljson-c
@@ -30,7 +30,7 @@ leaks:
 	valgrind --tool=memcheck --leak-check=yes ./bin/main
 
 check:
-	cppcheck --enable=all --suppress=missingIncludeSystem *.c functions/*.c
+	cppcheck --enable=all --suppress=missingIncludeSystem *.c functions/*.c cli_data/*.c
 
 style:
 	clang-format -n -style=google *.c
