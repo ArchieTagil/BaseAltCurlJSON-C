@@ -5,29 +5,32 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11
 
+# ONLY FOR DEBUG
+#CFLAGS = -std=c11
+
 all: build
 	bin/main
 
 build: cr_lib
-	$(CC) main.c -lcurl -ljson-c -lbasealt -L lib -o bin/main
+	$(CC) $(CFLAGS) main.c -lcurl -ljson-c -lbasealt -L lib -o bin/main
 
 cr_objects: clean
-	$(CC) -c -fpic ./functions/*.c -lcurl -ljson-c
+	$(CC) $(CFLAGS) -c -fpic ./functions/*.c -lcurl -ljson-c
 	mv *.o ./out
 
 cr_lib: clean cr_objects
-	$(CC) ./out/*.o -shared -Wl,-soname,libbasealt.so.1 -lcurl -ljson-c -o ./lib/libbasealt.so.1.1.1
+	$(CC) $(CFLAGS) ./out/*.o -shared -Wl,-soname,libbasealt.so.1 -lcurl -ljson-c -o ./lib/libbasealt.so.1.1.1
 	ln -s libbasealt.so.1.1.1 ./lib/libbasealt.so.1
 	ln -s libbasealt.so.1 ./lib/libbasealt.so
 
 run: clean
-	$(CC) *.c ./functions/*.c -lcurl -ljson-c -o ./bin/main && ./bin/main
+	$(CC) $(CFLAGS) *.c ./functions/*.c -lcurl -ljson-c -o ./bin/main && ./bin/main
 	
 leaks:
 	valgrind --tool=memcheck --leak-check=yes ./bin/main
 
 check:
-	cppcheck --enable=all --suppress=missingIncludeSystem *.c
+	cppcheck --enable=all --suppress=missingIncludeSystem *.c functions/*.c
 
 style:
 	clang-format -n -style=google *.c

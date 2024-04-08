@@ -14,6 +14,6 @@ typedef struct  {
 
 size_t WriteMemoryCallback(void *content, size_t size, size_t nmemb, void *userp);
 int get_user_input();
-void get_remote_data(char *url, MemoryStruct *chunk);
+CURLcode get_remote_data(char *url, MemoryStruct *chunk);
 
 #endif

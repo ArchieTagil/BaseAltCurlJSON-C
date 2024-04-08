@@ -1,9 +1,8 @@
 #include "../main.h"
 
-void get_remote_data(char *url, MemoryStruct *chunk) {
+CURLcode get_remote_data(char *url, MemoryStruct *chunk) {
     CURL *curl;
-    CURLcode res;
-    struct curl_slist *headers = NULL;
+    CURLcode res = CURLE_OK;
 
     curl = curl_easy_init();
     if (curl) {
@@ -17,4 +16,5 @@ void get_remote_data(char *url, MemoryStruct *chunk) {
 
         curl_easy_cleanup(curl);
     }
+    return res;
 }
