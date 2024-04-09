@@ -3,25 +3,25 @@
 # export LD_LIBRARY_PATH
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -std=c11
+#CFLAGS = -Wall -Werror -Wextra -std=c11
 
 # ONLY FOR DEBUG
-#CFLAGS = -std=c11
+CFLAGS = -std=c11
 
 all: build
-	bin/main
+	@bin/main
 
 build: cr_lib
-	$(CC) $(CFLAGS) main.c cli_data/*.c -lcurl -ljson-c -lbasealt -L lib -o bin/main
+	@$(CC) $(CFLAGS) main.c cli_data/*.c -lcurl -ljson-c -lbasealt -L lib -o bin/main
 
 cr_objects: clean
-	$(CC) $(CFLAGS) -c -fpic ./functions/*.c -lcurl -ljson-c
-	mv *.o ./out
+	@$(CC) $(CFLAGS) -c -fpic ./functions/*.c -lcurl -ljson-c
+	@mv *.o ./out
 
 cr_lib: clean cr_objects
-	$(CC) $(CFLAGS) ./out/*.o -shared -Wl,-soname,libbasealt.so.1 -lcurl -ljson-c -o ./lib/libbasealt.so.1.1.1
-	ln -s libbasealt.so.1.1.1 ./lib/libbasealt.so.1
-	ln -s libbasealt.so.1 ./lib/libbasealt.so
+	@$(CC) $(CFLAGS) ./out/*.o -shared -Wl,-soname,libbasealt.so.1 -lcurl -ljson-c -o ./lib/libbasealt.so.1.1.1
+	@ln -s libbasealt.so.1.1.1 ./lib/libbasealt.so.1
+	@ln -s libbasealt.so.1 ./lib/libbasealt.so
 
 run: clean
 	$(CC) $(CFLAGS) *.c ./functions/*.c -lcurl -ljson-c -o ./bin/main && ./bin/main
@@ -39,5 +39,5 @@ style_repair:
 	clang-format -i -style=google *.c
 	
 clean:
-	rm -f ./bin/main ./out/*.o ./lib/*
+	@rm -f ./bin/main ./out/*.o ./lib/*
 	
