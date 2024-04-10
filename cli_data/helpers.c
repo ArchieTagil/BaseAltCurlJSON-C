@@ -41,10 +41,13 @@ void perform_set_branch(int id, char *argument) {
 
 void perform_get_data() {
     selected_branches *branches = get_selected_branches();
-    data_buffer *buffer = get_data_buffer(); 
+    data_buffer *buffer = get_data_buffer();
+    char src[100] = {0};
     if (strcmp(branches->branch1, "empty") !=0 && strcmp(branches->branch2, "empty") != 0) {
-        get_remote_data("https://petstore.swagger.io/v2/pet/1", &buffer->buffer1);
-        get_remote_data("https://petstore.swagger.io/v2/pet/2", &buffer->buffer2);
+        strcpy(src, "https://rdb.altlinux.org/api/export/branch_binary_packages/");
+        get_remote_data(strcat(src, branches->branch1), &buffer->buffer1);
+        strcpy(src, "https://rdb.altlinux.org/api/export/branch_binary_packages/");
+        get_remote_data(strcat(src, branches->branch2), &buffer->buffer2);
     } else {
         printf("at least of branches wasn't set\n");
     }
