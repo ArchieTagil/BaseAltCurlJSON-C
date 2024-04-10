@@ -67,6 +67,51 @@ void perform_show_highest_version_release() {
 
 }
 
-void perform_compare(int id) {
+void perform_compare(int id) { //1 left; 2 right
+    data_buffer *buffer = get_data_buffer();
+    json_object *root_obj1;
+    json_object *root_obj2;
 
+    root_obj1 = json_tokener_parse(buffer->buffer1.str);
+    root_obj2 = json_tokener_parse(buffer->buffer2.str);
+
+    // root_obj1 = json_object_from_file("p9example.json");
+    // root_obj2 = json_object_from_file("p10example.json");
+
+    json_object *packages1 = json_object_object_get(root_obj1, "packages");
+    json_object *packages2 = json_object_object_get(root_obj2, "packages");
+
+    int arr_len1 = json_object_array_length(packages1);
+    int arr_len2 = json_object_array_length(packages2);
+
+    printf("arrlen1 = %d\n", arr_len1);
+    printf("arrlen2 = %d\n\n", arr_len2);
+
+    int package_found = 0;
+    for (size_t i = 0; i < arr_len1; i++) {
+        package_found = 0;
+        json_object *tmp_object1 = json_object_array_get_idx(packages1, i);
+
+        const char *name1 = json_object_get_string(json_object_object_get(tmp_object1, "name"));
+        const char *arch1 = json_object_get_string(json_object_object_get(tmp_object1, "arch"));
+        const char *distag = json_object_get_string(json_object_object_get(tmp_object1, "disttag"));
+
+        for (size_t j = 0; j < arr_len2; j++) {
+            json_object *tmp_object2 = json_object_array_get_idx(packages2, j);
+            
+            const char *name2 = json_object_get_string(json_object_object_get(tmp_object2, "name"));
+            const char *arch2 = json_object_get_string(json_object_object_get(tmp_object2, "arch"));
+
+            if (strcmp(name1, name2) == 0 && strcmp(arch1, arch2) == 0) {
+                package_found = 1;
+                break;
+            }
+        }
+
+        if (package_found == 0) {
+            printf("name: %s\n", name1);
+            printf("disttag: %s\n", distag);
+            printf("arch: %s\n\n", arch1);
+        }
+    }
 }

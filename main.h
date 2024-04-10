@@ -12,12 +12,12 @@ typedef struct {
     size_t size;
 } MemoryStruct;
 
-typedef struct {
+typedef struct { //something similar to Singleton
     MemoryStruct buffer1;
     MemoryStruct buffer2;
 } data_buffer;
 
-typedef struct { //Singleton
+typedef struct { //something similar to Singleton
     char branch1[50];
     char branch2[50];
 } selected_branches;
