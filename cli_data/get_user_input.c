@@ -4,7 +4,6 @@ int get_user_input() {
     char command[1000] = {0};
     while (strcmp(command, "exit") != 0) {
         printf("baseAlt:");
-        
         fgets(command, 1000, stdin);
         command[strlen(command) - 1] = '\0'; // get rid of enter in the end of string
 
@@ -43,15 +42,10 @@ int get_user_input() {
                 } else {
                     printf("wrong command\n");
                 }
-
-
-                // printf("command is:%s\n", command);
-                // printf("argument is:%s\n", argument);
             }
             else if (strcmp(command, "exit") !=0) printf("wrong command\n");
         }
     }
-    
     return 1;
 }
 

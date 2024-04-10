@@ -12,6 +12,11 @@ typedef struct {
     size_t size;
 } MemoryStruct;
 
+typedef struct {
+    MemoryStruct buffer1;
+    MemoryStruct buffer2;
+} data_buffer;
+
 typedef struct { //Singleton
     char branch1[50];
     char branch2[50];
@@ -20,6 +25,8 @@ typedef struct { //Singleton
 size_t WriteMemoryCallback(void *content, size_t size, size_t nmemb, void *userp);
 selected_branches *get_selected_branches();
 void selected_branches_init(selected_branches *branches);
+data_buffer *get_data_buffer();
+void data_buffer_init(data_buffer *buffer);
 void perform_get_data();
 void perform_set_branch(int id, char *argument);
 void perform_show_branches();
