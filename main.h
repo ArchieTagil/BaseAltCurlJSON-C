@@ -13,14 +13,23 @@ typedef struct {
 } MemoryStruct;
 
 typedef struct { //something similar to Singleton
-    MemoryStruct buffer1;
-    MemoryStruct buffer2;
+    MemoryStruct buffer1[6];
+    MemoryStruct buffer2[6];
 } data_buffer;
 
 typedef struct { //something similar to Singleton
     char branch1[50];
     char branch2[50];
 } selected_branches;
+
+typedef enum {
+    AARCH64,
+    ARMH,
+    I586,
+    NOARCH,
+    PPC64LE,
+    X86_64
+} arch_enum;
 
 size_t WriteMemoryCallback(void *content, size_t size, size_t nmemb, void *userp);
 selected_branches *get_selected_branches();
