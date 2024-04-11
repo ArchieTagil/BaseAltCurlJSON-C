@@ -31,10 +31,14 @@ List of commands to use:
 
 6. "show branch2_data" - show uploaded data for branch2
 
-7. "compare left" - works only if data for both branches was received. Show packages that are present in the first branch and are missing in the second one.
+7. "compare left" - works only if data for both branches was received. Show packages that are present in the first branch and are missing in the second one. You can find result json in file "result.json" in root of project directory.
 
-8. "compare right" - works only if data for both branches was received. Show packages that are present in the second branch and are missing in the first one.
+8. "compare right" - works only if data for both branches was received. Show packages that are present in the second branch and are missing in the first one. You can find result json in file "result.json" in root of project directory.
 
 9. "show highest_version_release" - works only if data for both branches was received. It'll show packages whose version-release in the first branch more higher than the version-release in the second one.
 
 10. "exit" - just quit out of the program.
+
+**Time of execute "compare function" is about 4 minutes 23 seconds on Ryzen 5900x**
+
+If I have more time, I think I could try implement "compare function" as multithreading solution. I think it could reduce executable time considerably. 

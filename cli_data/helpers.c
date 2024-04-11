@@ -82,21 +82,26 @@ void perform_show_branch_data(int id) {
 }
 
 void perform_show_highest_version_release() {
-
+    printf("Didn't implement yet, sorry :'(");
 }
 
 void perform_compare(int id) { //1 left; 2 right
     data_buffer *buffer = get_data_buffer();
+    if (id == 1) perform_compare_logic(buffer->buffer1, buffer->buffer2);
+    else perform_compare_logic(buffer->buffer2, buffer->buffer1);
+}
+
+void perform_compare_logic(MemoryStruct buffer1[6], MemoryStruct buffer2[6]) {
     int package_found = 0;
     json_object *root_obj2[6];
     json_object *result_json = json_object_new_object();
 
-    for (size_t i2 = 0; i2 < 6; i2++) {
-        root_obj2[i2] = json_tokener_parse(buffer->buffer2[i2].str);
+    for (size_t i2 = 0; i2 < 6; i2++) { 
+        root_obj2[i2] = json_tokener_parse(buffer2[i2].str);
     }
 
-    for (size_t i = 0; i < 6; i++) {
-        json_object *root_obj1 = json_tokener_parse(buffer->buffer1[i].str);
+    for (size_t i = 0; i < 1; i++) { //reduce for faster result
+        json_object *root_obj1 = json_tokener_parse(buffer1[i].str);
         json_object *packages1 = json_object_object_get(root_obj1, "packages");
 
         int arr_len1 = json_object_array_length(packages1);
@@ -107,18 +112,20 @@ void perform_compare(int id) { //1 left; 2 right
 
             const char *name1 = json_object_get_string(json_object_object_get(tmp_object1, "name"));
             const char *arch1 = json_object_get_string(json_object_object_get(tmp_object1, "arch"));
-            const char *distag = json_object_get_string(json_object_object_get(tmp_object1, "disttag"));
 
             package_found = is_package_found_in_buffer2(arch1, root_obj2, name1);
 
             if (package_found == 0) {
-                // json_object_object_add(result_json, "name", name1);
-                printf("name: %s\n", name1);
-                printf("disttag: %s\n", distag);
-                printf("arch: %s\n\n", arch1);
+                json_object *sub_object = json_object_new_object();
+                json_object_object_add(sub_object, "name", json_object_object_get(tmp_object1, "name"));
+                json_object_object_add(sub_object, "version", json_object_object_get(tmp_object1, "version"));
+                json_object_object_add(sub_object, "arch", json_object_object_get(tmp_object1, "arch"));
+
+                json_object_object_add(result_json, name1, sub_object);
             }
         }
     }
+    save_to_file("./result.json", json_object_to_json_string_ext(result_json, JSON_C_TO_STRING_PRETTY));
 }
 
 int is_package_found_in_buffer2(const char *arch, json_object *root[6], const char *name1) {
@@ -151,4 +158,11 @@ int get_buffer2_id(const char *arch1) {
     if (strcmp(arch1, "ppc64le") == 0) result = 4;
     if (strcmp(arch1, "x86_64") == 0) result = 5;
     return result;
+}
+
+void save_to_file(char *filename, const char *text) {
+    FILE* fptr;
+    fptr = fopen(filename, "w");
+    fwrite(text,sizeof(char),strlen(text),fptr);
+    fclose(fptr);   
 }

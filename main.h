@@ -46,5 +46,7 @@ int get_user_input();
 CURLcode get_remote_data(char *url, MemoryStruct *chunk);
 int get_buffer2_id(const char *arch1);
 int is_package_found_in_buffer2(const char *arch, json_object *root[6], const char *name1);
+void save_to_file(char *filename, const char *text);
+void perform_compare_logic(MemoryStruct buffer1[6], MemoryStruct buffer2[6]);
 
 #endif
