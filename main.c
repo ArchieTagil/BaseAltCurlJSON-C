@@ -7,7 +7,7 @@ int main() {
     data_buffer *buffer = get_data_buffer();
     data_buffer_init(buffer);
 
-    int branch_id = get_user_input();
+    get_user_input();
 
     for (size_t i = 0; i < 6; i++) {
         free(buffer->buffer1[i].str);

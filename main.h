@@ -42,7 +42,7 @@ void perform_show_branches();
 void perform_show_branch_data(int id);
 void perform_show_highest_version_release();
 void perform_compare(int id);
-int get_user_input();
+void get_user_input();
 CURLcode get_remote_data(char *url, MemoryStruct *chunk);
 int get_buffer2_id(const char *arch1);
 int is_package_found_in_buffer2(const char *arch, json_object *root[6], const char *name1);

@@ -3,10 +3,10 @@
 # export LD_LIBRARY_PATH
 
 CC = gcc
-#CFLAGS = -Wall -Werror -Wextra -std=c11
+CFLAGS = -Wall -Werror -Wextra -std=c11
 
 # ONLY FOR DEBUG
-CFLAGS = -std=c11
+#CFLAGS = -std=c11
 
 all: build
 	@bin/main

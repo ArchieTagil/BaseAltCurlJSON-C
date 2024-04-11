@@ -42,3 +42,15 @@ List of commands to use:
 **Time of execute "compare function" is about 4 minutes 23 seconds on Ryzen 5900x**
 
 If I have more time, I think I could try implement "compare function" as multithreading solution. I think it could reduce executable time considerably. 
+
+## Example of use program:
+```
+baseAlt:show_branches
+baseAlt:set_branch1 p9
+baseAlt:show_branches
+baseAlt:set_branch2 p10
+baseAlt:show_branches
+baseAlt:get_data
+baseAlt:compare left
+baseAlt:exit
+```

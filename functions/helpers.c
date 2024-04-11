@@ -46,9 +46,9 @@ void perform_set_branch(int id, char *argument) {
 void perform_get_data() {
     selected_branches *branches = get_selected_branches();
     data_buffer *buffer = get_data_buffer();
-    char arch_name[6][8] = {"aarch64", "armh", "i586", "noarch", "ppc64le", "x86_64"};
-    char src[100] = {0};
     if (strcmp(branches->branch1, "empty") !=0 && strcmp(branches->branch2, "empty") != 0) {
+        char src[100] = {0};
+        char arch_name[6][8] = {"aarch64", "armh", "i586", "noarch", "ppc64le", "x86_64"};
         for (size_t i = 0; i < 6; i++) {
             strcpy(src, "https://rdb.altlinux.org/api/export/branch_binary_packages/");
             strcat(src, branches->branch1); //add p10, p9, etc to the path
@@ -82,7 +82,7 @@ void perform_show_branch_data(int id) {
 }
 
 void perform_show_highest_version_release() {
-    printf("Didn't implement yet, sorry :'(");
+    printf("Didn't implement yet, sorry :'(\n");
 }
 
 void perform_compare(int id) { //1 left; 2 right
@@ -92,7 +92,6 @@ void perform_compare(int id) { //1 left; 2 right
 }
 
 void perform_compare_logic(MemoryStruct buffer1[6], MemoryStruct buffer2[6]) {
-    int package_found = 0;
     json_object *root_obj2[6];
     json_object *result_json = json_object_new_object();
 
@@ -106,8 +105,8 @@ void perform_compare_logic(MemoryStruct buffer1[6], MemoryStruct buffer2[6]) {
 
         int arr_len1 = json_object_array_length(packages1);
 
-        for (size_t j = 0; j < arr_len1; j++) {
-            package_found = 0;
+        for (int j = 0; j < arr_len1; j++) {
+            int package_found = 0;
             json_object *tmp_object1 = json_object_array_get_idx(packages1, j);
 
             const char *name1 = json_object_get_string(json_object_object_get(tmp_object1, "name"));
@@ -135,7 +134,7 @@ int is_package_found_in_buffer2(const char *arch, json_object *root[6], const ch
     json_object *packages2 = json_object_object_get(root[buffer2_id], "packages");
     int arr_len2 = json_object_array_length(packages2);
 
-    for (size_t k = 0; k < arr_len2; k++) {
+    for (int k = 0; k < arr_len2; k++) {
         json_object *tmp_object2 = json_object_array_get_idx(packages2, k);
     
         const char *name2 = json_object_get_string(json_object_object_get(tmp_object2, "name"));

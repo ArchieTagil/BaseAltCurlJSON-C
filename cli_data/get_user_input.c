@@ -1,6 +1,6 @@
 #include "../main.h"
 
-int get_user_input() {
+void get_user_input() {
     char command[1000] = {0};
     while (strcmp(command, "exit") != 0) {
         printf("baseAlt:");
@@ -46,7 +46,6 @@ int get_user_input() {
             else if (strcmp(command, "exit") !=0) printf("wrong command\n");
         }
     }
-    return 1;
 }
 
 
