@@ -25,7 +25,7 @@ List of commands to use:
 
 3. "show_branches" - show names of selected branches (if they set) or empty.
 
-4. "get_data" - works only if both branches was set. It'll get lists of packages of both branches to compare.
+4. "get_data" - works only if both branches was set. It'll get lists of packages of both branches from remote server to local memory.
 
 5. "show branch1_data" - show uploded data for branch1
 

@@ -86,50 +86,69 @@ void perform_show_highest_version_release() {
 }
 
 void perform_compare(int id) { //1 left; 2 right
-    // data_buffer *buffer = get_data_buffer();
-    // json_object *root_obj1;
-    // json_object *root_obj2;
+    data_buffer *buffer = get_data_buffer();
+    int package_found = 0;
+    json_object *root_obj2[6];
+    json_object *result_json = json_object_new_object();
 
-    // root_obj1 = json_tokener_parse(buffer->buffer1.str);
-    // root_obj2 = json_tokener_parse(buffer->buffer2.str);
+    for (size_t i2 = 0; i2 < 6; i2++) {
+        root_obj2[i2] = json_tokener_parse(buffer->buffer2[i2].str);
+    }
 
-    // // root_obj1 = json_object_from_file("p9example.json");
-    // // root_obj2 = json_object_from_file("p10example.json");
+    for (size_t i = 0; i < 6; i++) {
+        json_object *root_obj1 = json_tokener_parse(buffer->buffer1[i].str);
+        json_object *packages1 = json_object_object_get(root_obj1, "packages");
 
-    // json_object *packages1 = json_object_object_get(root_obj1, "packages");
-    // json_object *packages2 = json_object_object_get(root_obj2, "packages");
+        int arr_len1 = json_object_array_length(packages1);
 
-    // int arr_len1 = json_object_array_length(packages1);
-    // int arr_len2 = json_object_array_length(packages2);
+        for (size_t j = 0; j < arr_len1; j++) {
+            package_found = 0;
+            json_object *tmp_object1 = json_object_array_get_idx(packages1, j);
 
-    // printf("arrlen1 = %d\n", arr_len1);
-    // printf("arrlen2 = %d\n\n", arr_len2);
+            const char *name1 = json_object_get_string(json_object_object_get(tmp_object1, "name"));
+            const char *arch1 = json_object_get_string(json_object_object_get(tmp_object1, "arch"));
+            const char *distag = json_object_get_string(json_object_object_get(tmp_object1, "disttag"));
 
-    // int package_found = 0;
-    // for (size_t i = 0; i < arr_len1; i++) {
-    //     package_found = 0;
-    //     json_object *tmp_object1 = json_object_array_get_idx(packages1, i);
+            package_found = is_package_found_in_buffer2(arch1, root_obj2, name1);
 
-    //     const char *name1 = json_object_get_string(json_object_object_get(tmp_object1, "name"));
-    //     const char *arch1 = json_object_get_string(json_object_object_get(tmp_object1, "arch"));
-    //     const char *distag = json_object_get_string(json_object_object_get(tmp_object1, "disttag"));
+            if (package_found == 0) {
+                // json_object_object_add(result_json, "name", name1);
+                printf("name: %s\n", name1);
+                printf("disttag: %s\n", distag);
+                printf("arch: %s\n\n", arch1);
+            }
+        }
+    }
+}
 
-    //     for (size_t j = 0; j < arr_len2; j++) {
-    //         json_object *tmp_object2 = json_object_array_get_idx(packages2, j);
-            
-    //         const char *name2 = json_object_get_string(json_object_object_get(tmp_object2, "name"));
-    //         const char *arch2 = json_object_get_string(json_object_object_get(tmp_object2, "arch"));
+int is_package_found_in_buffer2(const char *arch, json_object *root[6], const char *name1) {
+    int buffer2_id = get_buffer2_id(arch);
+    int package_found = 0;
 
-    //         if (strcmp(name1, name2) == 0 && strcmp(arch1, arch2) == 0) {
-    //             package_found = 1;
-    //             break;
-    //         }
-    //     }
+    json_object *packages2 = json_object_object_get(root[buffer2_id], "packages");
+    int arr_len2 = json_object_array_length(packages2);
 
-        // if (package_found == 0) {
-        //     printf("name: %s\n", name1);
-        //     printf("disttag: %s\n", distag);
-        //     printf("arch: %s\n\n", arch1);
-        // }
-    // }
+    for (size_t k = 0; k < arr_len2; k++) {
+        json_object *tmp_object2 = json_object_array_get_idx(packages2, k);
+    
+        const char *name2 = json_object_get_string(json_object_object_get(tmp_object2, "name"));
+        const char *arch2 = json_object_get_string(json_object_object_get(tmp_object2, "arch"));
+
+        if (strcmp(name1, name2) == 0 && strcmp(arch, arch2) == 0) {
+            package_found = 1;
+            break;
+        }
+    }
+    return package_found;
+}
+
+int get_buffer2_id(const char *arch1) {
+    int result = 0;
+    if (strcmp(arch1, "aarch64") == 0) result = 0;
+    if (strcmp(arch1, "armh") == 0) result = 1;
+    if (strcmp(arch1, "i586") == 0) result = 2;
+    if (strcmp(arch1, "noarch") == 0) result = 3;
+    if (strcmp(arch1, "ppc64le") == 0) result = 4;
+    if (strcmp(arch1, "x86_64") == 0) result = 5;
+    return result;
 }
