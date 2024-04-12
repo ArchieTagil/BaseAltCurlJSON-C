@@ -99,7 +99,7 @@ void perform_compare_logic(MemoryStruct buffer1[6], MemoryStruct buffer2[6]) {
         root_obj2[i2] = json_tokener_parse(buffer2[i2].str);
     }
 
-    for (size_t i = 0; i < 1; i++) { //reduce for faster result
+    for (size_t i = 0; i < 6; i++) { //reduce for faster result
         json_object *root_obj1 = json_tokener_parse(buffer1[i].str);
         json_object *packages1 = json_object_object_get(root_obj1, "packages");
 
