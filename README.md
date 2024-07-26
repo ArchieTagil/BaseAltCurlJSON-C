@@ -1,4 +1,4 @@
-# BaseALT test task
+# BaseALT test task (Тестовое задание при трудоустройстве в компанию BaseALT)
 
 ## Build and run
 
